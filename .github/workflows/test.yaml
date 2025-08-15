@@ -5,7 +5,7 @@ on:
    branches: [ main ] 
  workflow_dispatch: # Allows you to run this workflow manually
 
-# Permissions needed for Google Cloud authentication
+# Permissions needed for Google Cloud authentication.
 permissions:
   contents: read
   id-token: write
