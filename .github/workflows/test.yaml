@@ -1,0 +1,32 @@
+name: Deploy a data engineering pipeline
+
+on:
+ push:
+   branches: [ main ] 
+ workflow_dispatch: # Allows you to run this workflow manually
+
+# Permissions needed for Google Cloud authentication
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  deploy-pipeline:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout your repository to access the SQL file path
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Authenticate to Google Cloud
+      - name: Authenticate to Google Cloud
+        id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+
+      # 3. Setup the gcloud CLI
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
